@@ -1,0 +1,9 @@
+brisca:
+  database:
+    url: unll
+    username: unll
+    password: unll
+  jwt:
+    secret: ChkJXWvcspEVoiIQa5OaDZxXaHdM9YbW
+    expiration: 200
+
