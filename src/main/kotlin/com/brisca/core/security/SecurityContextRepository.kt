@@ -24,14 +24,19 @@ class SecurityContextRepository : ServerSecurityContextRepository {
     override fun load(swe: ServerWebExchange): Mono<SecurityContext> {
         val request = swe.request
         val authHeader = request.headers.getFirst(HttpHeaders.AUTHORIZATION)
+        val authQuery = request.queryParams.getFirst(HttpHeaders.AUTHORIZATION)
+        var authToken: String
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            val authToken = authHeader.substring(7)
-            val auth = UsernamePasswordAuthenticationToken(authToken, authToken)
-            return this.authenticationManager!!.authenticate(auth).map { authentication -> SecurityContextImpl(authentication) }
+            authToken = authHeader.substring(7)
+        } else if (authQuery != null) {
+            authToken = authQuery
         } else {
             return Mono.empty()
         }
+
+        val auth = UsernamePasswordAuthenticationToken(authToken, authToken)
+        return this.authenticationManager!!.authenticate(auth).map { authentication -> SecurityContextImpl(authentication) }
     }
 
 }
