@@ -5,5 +5,5 @@ brisca:
     password: unll
   jwt:
     secret: ChkJXWvcspEVoiIQa5OaDZxXaHdM9YbW
-    expiration: 200
+    expiration: 3000
 

@@ -25,7 +25,7 @@ class SecurityContextRepository : ServerSecurityContextRepository {
         val request = swe.request
         val authHeader = request.headers.getFirst(HttpHeaders.AUTHORIZATION)
         val authQuery = request.queryParams.getFirst(HttpHeaders.AUTHORIZATION)
-        var authToken: String
+        val authToken: String
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             authToken = authHeader.substring(7)
