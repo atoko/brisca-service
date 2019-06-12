@@ -1,27 +1,17 @@
 package com.brisca.core.repository
 
+import com.brisca.core.client.CosmosClient
 import com.brisca.core.model.beans.GameRow
 import com.brisca.core.model.beans.IGameRow
-import com.brisca.core.model.domain.GameData
-import org.davidmoten.rx.jdbc.Database
-import org.postgresql.util.PGobject
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
-import reactor.adapter.rxjava.RxJava2Adapter
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
-import java.lang.RuntimeException
-import java.util.*
-import java.util.stream.Collectors
+//import org.springframework.stereotype.Component
+//import reactor.core.publisher.Mono
+//import java.util.stream.Collectors
 //
 //@Component
 //class GameRepository(
-//        @Autowired val database: Database
+//    @Autowired cosmosClient: CosmosClient
 //) {
-//    companion object {
-//        const val GAME_API_VERSION = "1"
-//    }
-//
 //    fun loadOne(id: String?): Mono<GameRow> {
 //        if (id != null) {
 //            return RxJava2Adapter.flowableToFlux(database.select(

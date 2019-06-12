@@ -4,20 +4,13 @@ import com.brisca.core.model.domain.GameData
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.davidmoten.rx.jdbc.annotations.Column
-import org.postgresql.util.PGobject
-import java.util.*
+import java.util.Date
 
 interface IGameRow {
-    @Column
     fun id(): Long?
-    @Column
-    fun data(): PGobject
-    @Column("created_at")
+    fun data(): String
     fun createdAt(): Date
-    @Column
     fun modified(): Date?
-    @Column
     fun version(): String
 }
 
@@ -37,10 +30,10 @@ data class GameRow(var rawData: String = "", var createdAt: Date = Date()) {
         this.rawData = objectMapper.writeValueAsString(data)
     }
 
-    constructor(row: IGameRow): this(row.data().value, row.createdAt()){
+    constructor(row: IGameRow): this(row.data(), row.createdAt()){
         this.id = row.id().toString()
         this.modified = row.modified()
-        this.data = objectMapper.readValue(row.data().value)
+        this.data = objectMapper.readValue(row.data())
     }
 }
 

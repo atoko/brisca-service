@@ -35,24 +35,24 @@ class GameService(
     fun command(id: String, action: Action): Mono<GameData> {
         return gameRepository.loadOne(id).flatMap {
             var idempotencyKey = -1
-            val data = GameData(it).also { gameData ->
-                idempotencyKey = gameData.state.idempotency
-                gameData.state = Reducer.game(gameData.state, action)
-                gameData.status = when (action) {
+            val data = GameData(it).apply {
+                idempotencyKey = this.state.idempotency
+                this.state = Reducer.game(this.state, action)
+                this.status = when (action) {
                     is JoinGameAction -> {
                         when {
-                            gameData.state.tableSize == gameData.state.players.count() -> "FULL"
+                            this.state.tableSize == this.state.players.count() -> "FULL"
                             else -> "WAITING"
                         }
                     }
                     is PlayCardAction -> {
                         when {
-                            GameState.isGameEnded(gameData.state) -> "GAME"
-                            GameState.isRoundEnded(gameData.state) -> "ROUND"
+                            GameState.isGameEnded(this.state) -> "GAME"
+                            GameState.isRoundEnded(this.state) -> "ROUND"
                             else -> "PLAYING"
                         }
                     }
-                    else -> gameData.status
+                    else -> this.status
                 }
 
             }

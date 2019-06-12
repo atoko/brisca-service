@@ -25,6 +25,9 @@ repositories {
 
 ext {
 	set('springCloudVersion', 'Greenwich.BUILD-SNAPSHOT')
+	swaggerVersion = '0.0.5'
+	resilience4jVersion = '0.13.1'
+	
 }
 
 dependencies {
@@ -40,10 +43,15 @@ dependencies {
 //	implementation 'org.springframework.cloud:spring-cloud-stream-reactive'
 //	testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
 
-	implementation 'org.postgresql:postgresql:42.2.5'
-	runtimeOnly 'org.postgresql:postgresql'
-	implementation 'com.github.davidmoten:rxjava2-jdbc:0.2.4'
-	compile "io.projectreactor.addons:reactor-adapter:3.2.2.RELEASE"
+	compile("io.github.resilience4j:resilience4j-all:${resilience4jVersion}")
+	compile("io.github.resilience4j:resilience4j-reactor:${resilience4jVersion}")
+	compile("io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}")
+
+
+//	implementation 'org.postgresql:postgresql:42.2.5'
+//	runtimeOnly 'org.postgresql:postgresql'
+//	implementation 'com.github.davidmoten:rxjava2-jdbc:0.2.4'
+//	compile "io.projectreactor.addons:reactor-adapter:3.2.2.RELEASE"
 
 	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'

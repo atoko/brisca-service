@@ -29,12 +29,13 @@ class GameRepository() {
 
     fun saveOne(gameData: GameData): Mono<GameRow> {
         val id = UUID.randomUUID().toString()
-
-        return Mono.just(GameRow(gameData).apply {
+        val row = GameRow(gameData).apply {
             val date = if (gameData.id == null) this.createdAt else Date()
             this.id = gameData.id ?: id
             this.modified = date
             games.put(id, this)
-        })
+        }
+
+        return Mono.just(row)
     }
 }
