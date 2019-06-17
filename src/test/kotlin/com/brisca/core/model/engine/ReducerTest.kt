@@ -25,8 +25,8 @@ class ReducerTest {
         var state = GameState()
         val actions = listOf(
                 NewGameAction((0..39).map { i -> i }, 2),
-                JoinGameAction(111),
-                JoinGameAction(222)
+                JoinGameAction("111"),
+                JoinGameAction("222")
         )
         actions.forEach{
             state = Reducer.game(state, it)
@@ -47,9 +47,9 @@ class ReducerTest {
         var state = GameState()
         val actions = listOf(
                 NewGameAction((0..39).map { i -> i }, 2),
-                JoinGameAction(1),
-                JoinGameAction(2),
-                JoinGameAction(3)
+                JoinGameAction("1"),
+                JoinGameAction("2"),
+                JoinGameAction("3")
         )
         actions.forEach{
             state = Reducer.game(state, it)
@@ -69,8 +69,8 @@ class ReducerTest {
         var state = GameState()
         val actions = listOf(
                 NewGameAction((0..39).map { i -> i }, 2),
-                JoinGameAction(1),
-                PlayCardAction(1, 32)
+                JoinGameAction("1"),
+                PlayCardAction("1", 32)
         )
         actions.forEach{
             state = Reducer.game(state, it)
@@ -87,10 +87,10 @@ class ReducerTest {
         var state = GameState()
         val actions = listOf(
                 NewGameAction((0..39).map { i -> i }, 2),
-                JoinGameAction(1),
-                JoinGameAction(33),
-                PlayCardAction(1, 0),
-                PlayCardAction(33, 3)
+                JoinGameAction("1"),
+                JoinGameAction("33"),
+                PlayCardAction("1", 0),
+                PlayCardAction("33", 3)
         )
 
         actions.forEach{
@@ -110,10 +110,10 @@ class ReducerTest {
         var state = GameState()
         val actions = listOf(
                 NewGameAction((0..39).map { i -> i }, 2),
-                JoinGameAction(11),
-                JoinGameAction(33),
-                PlayCardAction(11, 0),
-                PlayCardAction(33, 3)
+                JoinGameAction("11"),
+                JoinGameAction("33"),
+                PlayCardAction("11", 0),
+                PlayCardAction("33", 3)
         )
 
         actions.forEach{
@@ -123,12 +123,12 @@ class ReducerTest {
         Assertions.assertEquals(2, get.lastTable.count())
         Assertions.assertEquals(listOf(0, 3).toString(), get.lastTable.map{ c -> c.index }.toString())
 
-        state = Reducer.game(state, PlayCardAction(11, 2))
+        state = Reducer.game(state, PlayCardAction("11", 2))
         get = state.readState()
         Assertions.assertEquals(2, get.lastTable.count())
         Assertions.assertEquals(listOf(0, 3).toString(), get.lastTable.map{ c -> c.index }.toString())
 
-        state = Reducer.game(state, PlayCardAction(33, 1))
+        state = Reducer.game(state, PlayCardAction("33", 1))
         get = state.readState()
         Assertions.assertEquals(2, get.lastTable.count())
         Assertions.assertEquals(listOf(2, 1).toString(), get.lastTable.map{ c -> c.index }.toString())
@@ -139,9 +139,9 @@ class ReducerTest {
         var state = GameState()
         val actions = listOf(
                 NewGameAction((0..39).map { i -> i }, 2),
-                JoinGameAction(1),
-                JoinGameAction(33),
-                PlayCardAction(1, 39)
+                JoinGameAction("1"),
+                JoinGameAction("33"),
+                PlayCardAction("1", 39)
         )
 
         actions.forEach{
@@ -160,8 +160,8 @@ class ReducerTest {
         var state = GameState()
         val actions = listOf(
                 NewGameAction((0..39).map { i -> i }, 2),
-                JoinGameAction(11),
-                JoinGameAction(33)
+                JoinGameAction("11"),
+                JoinGameAction("33")
         )
         actions.forEach{
             state = Reducer.game(state, it)
@@ -169,13 +169,13 @@ class ReducerTest {
 
         var get = state.readState()
         for(i in 0 until BriscaParameters.instance.totalCards) {
-            val nextPlayer = get.players.values.single { p -> p.id.toString() == get.nextToPlay }
-            state = Reducer.game(state, PlayCardAction(parseLong(get.nextToPlay), nextPlayer.hand.first()))
+            val nextPlayer = get.players.values.single { p -> p.id == get.nextToPlay }
+            state = Reducer.game(state, PlayCardAction(get.nextToPlay.orEmpty(), nextPlayer.hand.first()))
             get = state.readState()
         }
 
-        Assertions.assertEquals(0, get.players.values.find { p -> p.id.toString() == "11" }?.hand?.count())
-        Assertions.assertEquals(0, get.players.values.find { p -> p.id.toString() == "33" }?.hand?.count())
+        Assertions.assertEquals(0, get.players.values.find { p -> p.id == "11" }?.hand?.count())
+        Assertions.assertEquals(0, get.players.values.find { p -> p.id == "33" }?.hand?.count())
         Assertions.assertEquals(true, get.roundEnded)
         Assertions.assertEquals(0, get.cardsLeft)
     }

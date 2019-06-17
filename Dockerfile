@@ -1,4 +1,6 @@
 FROM gradle:5.4-jdk11 as builder
+
+ENV COSMOS_DB_PASSWORD=$COSMOS_DB_PASSWORD
 USER root
 WORKDIR /builder
 ADD . /builder
@@ -8,4 +10,5 @@ FROM openjdk:11.0.3-slim
 WORKDIR /app
 EXPOSE 8080
 COPY --from=builder /builder/build/libs/brisca-core-0.0.1.jar .
+
 CMD ["java", "-jar", "brisca-core-0.0.1.jar"]

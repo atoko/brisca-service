@@ -20,15 +20,15 @@ class BriscaCardTest {
                     assertEquals(Card.determineWinner(
                             instance,
                             suitCard,
-                            Card(card, 0),
-                            Card(suitCard, 1)
+                            Card(card, "0"),
+                            Card(suitCard, "1")
                     ).card.index, suitCard)
 
                     assertEquals(Card.determineWinner(
                             instance,
                             suitCard,
-                            Card(suitCard, 0),
-                            Card(card, 1)
+                            Card(suitCard, "0"),
+                            Card(card, "1")
                     ).card.index, suitCard)
                 }
             }
@@ -39,7 +39,7 @@ class BriscaCardTest {
     fun `game_has_120_points`() {
         var totalPoints: Int = 0
         (0 until instance.totalCards).forEach { card ->
-            totalPoints += Card(card, 0).getPoints(BriscaParameters.instance)
+            totalPoints += Card(card, "0").getPoints(BriscaParameters.instance)
         }
 
         assertEquals(120, totalPoints)
@@ -53,12 +53,12 @@ class BriscaCardTest {
 
             restCards.forEach { card ->
                 suitCards.forEach { suitCard ->
-                    val winner = if (Card.determineLife(restCards.last(), Card(card, 0))) card else suitCard
+                    val winner = if (Card.determineLife(restCards.last(), Card(card, "0"))) card else suitCard
                     assertEquals(Card.determineWinner(
                             instance,
                             restCards.last(),
-                            Card(suitCard, 0),
-                            Card(card, 1)
+                            Card(suitCard, "0"),
+                            Card(card, "1")
                     ).card.index, winner)
                 }
             }
@@ -77,8 +77,8 @@ class BriscaCardTest {
                     Card.determineWinner(
                         instance,
                         suitAce,
-                        Card(suitCard, 0),
-                        Card(suitAce, 0)
+                        Card(suitCard, "0"),
+                        Card(suitAce, "0")
                     ).card.index,
                     suitAce
                 )
@@ -90,8 +90,8 @@ class BriscaCardTest {
                         Card.determineWinner(
                                 instance,
                                 suitAce,
-                                Card(suitCard, 0),
-                                Card(suitThree, 0)
+                                Card(suitCard, "0"),
+                                Card(suitThree, "0")
                         ).card.index,
                         winner
                 )

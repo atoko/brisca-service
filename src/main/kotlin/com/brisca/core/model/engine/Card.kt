@@ -1,9 +1,11 @@
 package com.brisca.core.model.engine
 
+import java.util.*
+
 
 data class Card(
         val index: Int,
-        val playerId: Long
+        val playerId: String
 ) {
     enum class Suit(floorIndex: Int) {
         STAFF(0),
@@ -19,9 +21,11 @@ data class Card(
         return determinePointValue(parameters, this)
     }
 
-    constructor() : this(-1, -1)
+
+    constructor() : this(-1, defaultId)
 
     companion object {
+        val defaultId = UUID(0, 0).toString()
         fun determineSuit(card: Card): Suit {
             return determineSuit(card.index)
         }

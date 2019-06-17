@@ -1,25 +1,27 @@
 package com.brisca.core.model.engine
 
+import java.util.*
 import kotlin.random.Random
 
 data class PlayerState(
-        var id: Long?,
-        var next: Long?,
+        var id: String?,
+        var next: String?,
         var isBot: Boolean,
         val hand: MutableCollection<Int> = mutableSetOf(),
         var points: Int = 0
 ) {
     constructor(): this(defaultId, null, false)
-    constructor(playerId: String): this(playerId.toLong(), null, false)
-    constructor(playerId: Long?) : this(playerId, null, false) {
+    constructor(playerId: String?) : this(playerId, null, false) {
         if (id == null) {
-            this.id = Random.nextLong()
+            this.id = UUID.randomUUID().also {
+                UUID(it.mostSignificantBits, 0xCAFE)
+            }.toString()
             this.isBot = true
         }
     }
 
     companion object {
-        const val defaultId: Long = Int.MAX_VALUE.toLong()
+        const val defaultId: String = ""
     }
 
     fun drawCard(card: Int): PlayerState {

@@ -7,12 +7,12 @@ data class GameState(
         val deck: Deque<Int> = ArrayDeque(),
         val rounds: Deque<Int> = ArrayDeque(),
         var tableSize: Int = 0,
-        var tableOwner: Long? = null,
+        var tableOwner: String? = null,
         var life: Int? = null,
         val players: MutableMap<String, PlayerState> = mutableMapOf(),
         val table: Deque<Card> = ArrayDeque(),
         val lastTable: Deque<Card> = ArrayDeque(),
-        val turnSequence: Deque<Long> = ArrayDeque(),
+        val turnSequence: Deque<String> = ArrayDeque(),
         var idempotency: Int = 0
 ) {
     companion object {
@@ -68,7 +68,7 @@ data class GameState(
         return this
     }
 
-    fun joinGame(playerId: Long?): GameState {
+    fun joinGame(playerId: String?): GameState {
         val playerState = PlayerState(playerId)
         var id = playerState.id
 
@@ -114,7 +114,7 @@ data class GameState(
     }
 
 
-    fun playCard(playerId: Long, card: Int): GameState {
+    fun playCard(playerId: String, card: Int): GameState {
         val nextPlayer = nextToPlay()
 
         //Not enough players
@@ -169,7 +169,7 @@ data class GameState(
         return this
     }
 
-    public fun nextToPlay(): Long? {
+    public fun nextToPlay(): String? {
         if (turnSequence.isNotEmpty()) {
             return turnSequence.peekFirst()
         }

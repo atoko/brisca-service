@@ -13,6 +13,7 @@ import java.time.Instant
 import java.util.*
 
 @ConfigurationProperties("brisca.jwt")
+@Component
 class JwtTools(
 
 ) {

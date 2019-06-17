@@ -1,14 +1,20 @@
 package com.brisca.core
 
+import com.microsoft.azure.spring.data.cosmosdb.repository.config.EnableDocumentDbRepositories
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 
 @SpringBootApplication(scanBasePackages = ["com.brisca.core.*"])
-class BriscaCoreApplication
+@EnableDocumentDbRepositories
+class BriscaCoreApplication {
 
-    fun main(args: Array<String>) {
-        runApplication<BriscaCoreApplication>(*args)
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            runApplication<BriscaCoreApplication>(*args)
+        }
     }
+
+}
 
 

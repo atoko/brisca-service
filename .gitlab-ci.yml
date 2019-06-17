@@ -1,0 +1,29 @@
+stages:
+  - docker
+image: node:latest
+
+variables: 
+  KUBERNETES_SERVICE_ACCOUNT: "gitlab"
+  DOCKER_REGISTRY: "dealer.azurecr.io"
+  DOCKER_PATH: "$DOCKER_REGISTRY/peloris"
+  DOCKER_HOST: tcp://docker:2375/
+  # When using dind, it's wise to use the overlayfs driver for
+  # improved performance.
+  DOCKER_DRIVER: overlay2
+
+
+.cache-pull: &cache-pull
+  policy: pull
+
+####
+Docker Build:
+  stage: docker
+  image: docker:stable
+  script:
+    - echo "$DOCKER_KEY" > key.json
+    - docker login -u dealer --password-stdin https://us.gcr.io < key.json ;
+    - docker build -t $DOCKER_PATH ;
+    - docker push $DOCKER_PATH/briscas-core ;
+  variables:
+    COSMOS_DB_PASSWORD: "$COSMOS_DB_PASSWORD"
+####

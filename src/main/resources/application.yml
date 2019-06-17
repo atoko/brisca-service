@@ -7,10 +7,12 @@ brisca:
     secret: ChkJXWvcspEVoiIQa5OaDZxXaHdM9YbW
     expiration: 3000
 
-cosmos-client:
-  baseUrl: https://briscas.documents.azure.com:443/
-  appId: cosmos_db
-  environment: nonprod
-  svcId: master
-  svcPassword: ${COSMOS_DB_PASSWORD}
-  retrycount: 2
+azure:
+  cosmosdb:
+    key: ${COSMOS_DB_PASSWORD}
+    appId: briscas-core
+    uri: https://briscas.documents.azure.com:443/
+    database: nonprod
+    allow-telemetry: false
+    connectTimeoutInSecs: 60
+    readTimeoutInSecs: 5

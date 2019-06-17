@@ -43,7 +43,7 @@ class GameCommandController(
     @PostMapping("/game/{id}/join", consumes=[APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('ROLE_PLAYER')")
     fun join(principal: Principal, @PathVariable @Valid id: String): Mono<ResponseEntity<GetResponse>> {
-        val playerId = principal.name.toLong()
+        val playerId = principal.name
         return gameService.command(id, JoinGameAction(playerId)).map {
             ResponseEntity.ok(GetResponse(
                     listOf(GameResponse(
@@ -58,7 +58,7 @@ class GameCommandController(
     @PostMapping("/game/{id}/bot", consumes=[APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('ROLE_PLAYER')")
     fun bot(principal: Principal, @PathVariable @Valid id: String): Mono<ResponseEntity<GetResponse>> {
-        val playerId = principal.name.toLong()
+        val playerId = principal.name
         return gameService.command(id, BotGameAction(playerId)).map {
             ResponseEntity.ok(GetResponse(
                     listOf(GameResponse(
@@ -73,7 +73,7 @@ class GameCommandController(
     @PostMapping("/game/{id}/card/{card}", consumes=[APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('ROLE_PLAYER')")
     fun card(principal: Principal, @PathVariable @Valid id: String, @PathVariable @Valid card: Int): Mono<ResponseEntity<GetResponse>> {
-        val playerId = principal.name.toLong()
+        val playerId = principal.name
         return gameService.command(id, PlayCardAction(playerId, card)).map {
             ResponseEntity.ok(GetResponse(
                     listOf(GameResponse(
